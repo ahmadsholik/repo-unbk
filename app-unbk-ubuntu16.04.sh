@@ -1,27 +1,18 @@
 #!/bin/bash
 
-#cek for update system
-sudo apt-get update
-sleep 10
-echo "y"
-sudo apt-get upgrade
-sleep 10
-echo "y"
+sudo apt-get -y update
+sudo apt-get -y upgrade
+
 
 # install Git application
-sudo apt-get install git-all
-sleep 10
-echo "y"
+sudo apt-get install -y git-all
 
 # install Docker application
-sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
-sleep 10
-echo "y"
+sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt-get install docker.io
-sleep 10
-echo "y"
+sudo apt-get install -y docker.io
 
 # install Docker Compose 
 sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -40,6 +31,8 @@ docker pull ahmadsholik/app-unbk:1.2
 docker pull ahmadsholik/mysql-unbk:1.1
 
 # run image app-unbk and mysqldb to be a container with environment and many variable
+#install lzip compponent
+sudo apt install -y lzip
 cd ~/
 wget https://raw.githubusercontent.com/ahmadsholik/repo-unbk/main/docker-compose.yml 
 docker-compose up -d

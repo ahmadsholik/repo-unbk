@@ -1,27 +1,22 @@
 #!/bin/bash
 
 #cek for update system
-sudo apt-get update
-sleep 10
-echo "y"
-sudo apt-get upgrade
-sleep 10
-echo "y"
+sudo apt-get -y update
+sudo apt-get -y upgrade
+
 
 # install Git application
-sudo apt-get install git-all
-sleep 10
-echo "y"
+sudo apt-get install -y git-all
+
+#install lzip compponent
+sudo apt install -y lzip
 
 # install Docker application
-sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
-sleep 10
-echo "y"
+sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt-get install docker-ce
-sleep 10
-echo "y"
+sudo apt-get install -y docker-ce
 
 # install Docker Compose 
 sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
