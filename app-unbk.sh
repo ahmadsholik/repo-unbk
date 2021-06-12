@@ -30,6 +30,9 @@ docker pull ahmadsholik/app-unbk:1.2
 docker pull ahmadsholik/mysql-unbk:1.1
 
 # run image app-unbk and mysqldb to be a container with environment and many variable
+cd ~/
+wget https://raw.githubusercontent.com/ahmadsholik/repo-unbk/main/docker-compose.yml 
+docker-compose up -d
 
 
 
