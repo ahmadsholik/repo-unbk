@@ -10,6 +10,8 @@ echo "y"
 
 # install Git application
 sudo apt-get install git-all
+sleep 10
+echo "y"
 
 # install Docker application
 sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
@@ -17,7 +19,7 @@ sleep 10
 echo "y"
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt-get install docker.io
+sudo apt-get install docker-ce
 sleep 10
 echo "y"
 

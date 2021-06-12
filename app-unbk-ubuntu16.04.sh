@@ -10,6 +10,8 @@ echo "y"
 
 # install Git application
 sudo apt-get install git-all
+sleep 10
+echo "y"
 
 # install Docker application
 sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
