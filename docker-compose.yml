@@ -6,8 +6,6 @@ services:
             - "80:80"
         links:
             - mysqldb
-        volumes:
-            - /home/ahmad/belajardocker/app-unbk/unbk:/var/www/html/unbk
         networks:
             - default
     mysqldb:
