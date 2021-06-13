@@ -1,47 +1,80 @@
 #!/bin/bash
+# Application App-UNBK installation wrapper
+# http://kartinisoft.com
+#
+# Currently Supported Operating Systems:
+#
+#   RHEL 5, 6, 7
+#   CentOS 5, 6, 7
+#   Debian 7, 8
+#   Ubuntu 12.04 - 18.04
+#
 
-#cek for update system
-sudo apt-get update
-sleep 10
-echo "y"
-sudo apt-get upgrade
-sleep 10
-echo "y"
+# Am I root?
+if [ "x$(id -u)" != 'x0' ]; then
+    echo 'Error: Skrip ini hanya dapat dijalankan dengan akses root'
+    exit 1
+fi
 
-# install Git application
-sudo apt-get install git-all
+#Determine if Apache is installed on a system
+if [[ -z $(apache2 -v 2>/dev/null) ]] && [[ -z $(httpd -v 2>/dev/null) ]]; then 
+    echo "Apache tidak ditemukan"; 
+else
+    echo "Mulai hapus instalasi apache dari sistem"
+    service apache2 stop
+    apt-get purge apache2 apache2-utils apache2-bin apache2.2-common
+    apt-get autoremove
+    rm -rf /etc/apache2
+    exit 1
+fi
 
-# install Docker application
-sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
-sleep 10
-echo "y"
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt-get install docker.io
-sleep 10
-echo "y"
+#Determine if Apache is installed on a system
+if [[ -z $(mysql -v 2>/dev/null) ]] && [[ -z $(mysqld -v 2>/dev/null) ]]; then 
+    echo "mysql tidak ditemukan"; 
+else
+    echo "Mulai hapus instalasi mysql dari sistem"
+    service mysql stop
+    killall -KILL mysql mysqld_safe mysqld
+    apt-get --yes purge mysql-server mysql-client
+    apt-get --yes autoremove --purge
+    apt-get autoclean
+    deluser --remove-home mysql
+    delgroup mysql
+    rm -rf /etc/apparmor.d/abstractions/mysql /etc/apparmor.d/cache/usr.sbin.mysqld /etc/mysql /var/lib/mysql /var/log/mysql* /var/log/upstart/mysql.log* /var/run/mysqld
+    updatedb
+    exit 1
+fi
 
-# install Docker Compose 
-sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+# Detect OS
+case $(head -n1 /etc/issue | cut -f 1 -d ' ') in
+    Debian)     type="debian" ;;
+    Ubuntu)     type="ubuntu" ;;
+    Amazon)     type="amazon" ;;
+    *)          type="rhel" ;;
+esac
 
-# install portainer for Docker Monitoring and Control
-cd ~/
-docker volume create portainer_data
-docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
+# Check wget
+if [ -e '/usr/bin/wget' ]; then
+    wget https://raw.githubusercontent.com/ahmadsholik/repo-unbk/main/app-unbk-$type.sh -O app-unbk-$type.sh
+    if [ "$?" -eq '0' ]; then
+        bash app-unbk-$type.sh $*
+        exit
+    else
+        echo "Error: app-unbk-$type.sh download failed."
+        exit 1
+    fi
+fi
 
-# Download and Run Image Application UNBK from Docker Hub ahmadsholik Repository
-docker pull ahmadsholik/app-unbk:1.2
+# Check curl
+if [ -e '/usr/bin/curl' ]; then
+    curl -O https://raw.githubusercontent.com/ahmadsholik/repo-unbk/main/app-unbk-$type.sh
+    if [ "$?" -eq '0' ]; then
+        bash app-unbk-$type.sh $*
+        exit
+    else
+        echo "Error: app-unbk-$type.sh download failed."
+        exit 1
+    fi
+fi
 
-# Download and Run Image Database UNBK from Docker Hub ahmadsholik Repository
-docker pull ahmadsholik/mysql-unbk:1.1
-
-# run image app-unbk and mysqldb to be a container with environment and many variable
-cd ~/
-wget https://raw.githubusercontent.com/ahmadsholik/repo-unbk/main/docker-compose.yml 
-docker-compose up -d
-
-
-
-
+exit
