@@ -1,0 +1,25 @@
+version: "2"
+services:
+    www:
+        image: ahmadsholik/app-unbk:1.2
+        ports: 
+            - "8080:80"
+        links:
+            - mysqldb
+        networks:
+            - default
+    mysqldb:
+        image: ahmadsholik/mysql-unbk:1.1
+        ports: 
+            - "3307:3306"
+        environment:
+            MYSQL_DATABASE: unbk
+            MYSQL_USER: unbk
+            MYSQL_PASSWORD: p4ssw0rd
+            MYSQL_ROOT_PASSWORD: p4ssw0rd
+        volumes:
+            - persistent:/var/lib/mysql
+        networks:
+            - default
+volumes:
+    persistent:

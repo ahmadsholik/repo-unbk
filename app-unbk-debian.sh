@@ -1,27 +1,27 @@
 #!/bin/bash
 
 #cek for update system
-sudo apt-get -y update
-sudo apt-get -y upgrade
+ apt-get -y update
+ apt-get -y upgrade
 
 
 # install Git application
-sudo apt-get install -y git-all
+ apt-get install -y git-all
 
 #install lzip compponent
-sudo apt install -y lzip
+ apt install -y lzip
 
 # install Docker application
-sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+ apt-get install -y apt-transport-https ca-certificates curl software-properties-common
 
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt-get install -y docker-ce
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg |  apt-key add -
+ add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+ apt-get install -y docker-ce
 
 # install Docker Compose 
-sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+ curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+ chmod +x /usr/local/bin/docker-compose
+ ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 # install portainer for Docker Monitoring and Control
 cd ~/
@@ -35,9 +35,11 @@ docker pull ahmadsholik/app-unbk:1.2
 docker pull ahmadsholik/mysql-unbk:1.1
 
 # run image app-unbk and mysqldb to be a container with environment and many variable
+#install lzip compponent
 cd ~/
-wget https://raw.githubusercontent.com/ahmadsholik/repo-unbk/main/docker-compose.yml 
-docker-compose up -d
+#wget https://raw.githubusercontent.com/ahmadsholik/repo-unbk/main/docker-compose.yml 
+#docker-compose up -d
+curl -L https://raw.githubusercontent.com/ahmadsholik/repo-unbk/main/appunbk-stack.yml -o appunbk-stack.yml && docker stack deploy --compose-file=agent-appunbk-stack.yml app-unbk
 
 
 
