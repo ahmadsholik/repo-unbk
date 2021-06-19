@@ -33,9 +33,9 @@ docker pull ahmadsholik/mysql-unbk:1.1
 # run image app-unbk and mysqldb to be a container with environment and many variable
 #install lzip compponent
 cd ~/
-#wget https://raw.githubusercontent.com/ahmadsholik/repo-unbk/main/docker-compose.yml 
-#docker-compose up -d
-curl -L https://raw.githubusercontent.com/ahmadsholik/repo-unbk/main/appunbk-stack.yml -o appunbk-stack.yml && docker stack deploy --compose-file=appunbk-stack.yml app-unbk
+wget https://raw.githubusercontent.com/ahmadsholik/repo-unbk/main/docker-compose.yml 
+sudo docker-compose up -d
+#curl -L https://raw.githubusercontent.com/ahmadsholik/repo-unbk/main/appunbk-stack.yml -o appunbk-stack.yml && docker stack deploy --compose-file=appunbk-stack.yml app-unbk
 
 
 
