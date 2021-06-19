@@ -35,7 +35,7 @@ docker pull ahmadsholik/mysql-unbk:1.1
 cd ~/
 #wget https://raw.githubusercontent.com/ahmadsholik/repo-unbk/main/docker-compose.yml 
 #docker-compose up -d
-curl -L https://raw.githubusercontent.com/ahmadsholik/repo-unbk/main/appunbk-stack.yml -o appunbk-stack.yml && docker stack deploy --compose-file=agent-appunbk-stack.yml app-unbk
+curl -L https://raw.githubusercontent.com/ahmadsholik/repo-unbk/main/appunbk-stack.yml -o appunbk-stack.yml && docker stack deploy --compose-file=appunbk-stack.yml app-unbk
 
 
 
