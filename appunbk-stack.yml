@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 services:
     www:
         image: ahmadsholik/app-unbk:1.2
